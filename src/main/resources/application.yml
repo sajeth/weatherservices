@@ -1,0 +1,14 @@
+server:
+  servlet:
+    context-path: /weatherservices
+  port: 8080
+springdoc:
+#  use-management-port: true
+  show-actuator: true
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+weather:
+  endpoint: https://api.weather.gov
+  forecast: /gridpoints/MLB/33,70/forecast
