@@ -1,12 +1,10 @@
 package com.weather.service;
 
-import com.weather.pojo.Weather;
-import com.weather.pojo.response.RestResponse;
+import com.weather.domain.response.Weather;
+import com.weather.domain.RestResponse;
 import com.weather.rest.ApiWeatherClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class WeatherServiceImpl implements IWeather {
@@ -15,13 +13,11 @@ public class WeatherServiceImpl implements IWeather {
     ApiWeatherClient apiWeatherClient;
 
     @Override
-    public RestResponse<Object> getWeatherForecast() {
-        Weather output;
+    public RestResponse<Object> getWeatherForecast(Double latitude,Double longitude) {
 
-        Optional<Weather> response = apiWeatherClient.getWeatherForecast().blockOptional();
-        output = response.orElse(null);
-        RestResponse.RestResponseBuilder<Object> x = RestResponse.builder().response(output);
-        if (response.isEmpty()) {
+        Weather response = apiWeatherClient.getWeatherForecast(latitude,longitude).blockFirst();
+        RestResponse.RestResponseBuilder<Object> x = RestResponse.builder().response(response);
+        if (null==response) {
             return x.code(500).status("FAILURE")
                     .build();
         } else {

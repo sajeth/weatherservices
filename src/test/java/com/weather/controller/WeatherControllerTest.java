@@ -1,7 +1,7 @@
 package com.weather.controller;
 
-import com.weather.pojo.Weather;
-import com.weather.pojo.response.RestResponse;
+import com.weather.domain.response.Weather;
+import com.weather.domain.RestResponse;
 import com.weather.service.IWeather;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
@@ -11,9 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
-import static net.bytebuddy.matcher.ElementMatchers.is;
-import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -32,13 +30,15 @@ class WeatherControllerTest {
         Weather weather=new Weather();
         weather.setType("Type");
         // Setup
-        when(mockIWeather.getWeatherForecast()).thenReturn(RestResponse.builder()
+        when(mockIWeather.getWeatherForecast(anyDouble(),anyDouble())).thenReturn(RestResponse.builder()
                         .status("SUCCESS")
                         .response(weather)
                 .code(200).build());
 
         // Run the test and verify the results
         mockMvc.perform(get("/weather/latest")
+                        .param("lattitude", String.valueOf(33d))
+                        .param("longitude",String.valueOf(70d))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
            //     .andExpect(jsonPath("$.*", hasSize(1))).

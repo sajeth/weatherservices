@@ -1,7 +1,7 @@
 package com.weather.service;
 
-import com.weather.pojo.response.RestResponse;
+import com.weather.domain.RestResponse;
 
 public interface IWeather {
-    public RestResponse<Object> getWeatherForecast();
+    RestResponse<Object> getWeatherForecast(Double lattitude, Double longitude);
 }

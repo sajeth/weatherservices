@@ -1,4 +1,4 @@
-package com.weather.pojo;
+package com.weather.domain.response;
 
 import lombok.Data;
 
